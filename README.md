@@ -14,6 +14,12 @@ Node/Express REST API to provide typical functionality found in an ecommerce web
 2. Run 'npm i' to install dependencies.
 3. Run 'npm start' to start the server.
 
+### optional
+
+4. Create a database in postgres
+5. Create .env file based off example.env
+6. run 'npm run create-database' to populate database with tables shown in resources/ERD.png
+
 ## Endpoints
 
 To be added as project is built...
