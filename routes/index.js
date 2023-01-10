@@ -1,8 +1,8 @@
 const express = require('express');
 const routes = express.Router();
 
-routes.get('/', (req, res) => {
-	res.send('E-commerce REST API ');
-});
-
-module.exports = routes;
+module.exports = (app, passport) => {
+	app.get('/', (req, res) => {
+		res.send('Express e-commerce API - Jon Green');
+	});
+};
