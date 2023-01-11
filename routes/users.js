@@ -30,7 +30,6 @@ module.exports = (app, passport) => {
 			const result = await userQuery.createUser(req.body);
 			res.send(result);
 		} catch (error) {
-			console.log(error);
 			res.status(400).send({ message: 'User not created' });
 		}
 	});
@@ -42,7 +41,6 @@ module.exports = (app, passport) => {
 			const result = await userQuery.updateUser(req.params.id, req.body);
 			res.send(result);
 		} catch (error) {
-			console.log(error);
 			res.status(400).send({ message: 'User not updated' });
 		}
 	});

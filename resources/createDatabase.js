@@ -1,5 +1,5 @@
 const { Client } = require('pg');
-const { DB } = require('./config');
+const { DB } = require('../config');
 
 (async () => {
 	const usersTable = `

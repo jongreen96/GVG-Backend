@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "create-database": "node -r dotenv/config createDatabase"
+    "create-database": "node -r dotenv/config resources/createDatabase"
   },
   "author": "Jon Green",
   "license": "ISC",
