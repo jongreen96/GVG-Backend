@@ -1,6 +1,6 @@
 const userQuery = require('../queries/users');
 
-module.exports = (app, passport) => {
+module.exports = (app) => {
 	// ------------------- GET ------------------- //
 	// Get user by id
 	app.get('/users/:id', async (req, res) => {

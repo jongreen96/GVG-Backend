@@ -12,7 +12,7 @@ module.exports = (app) => {
 		session({
 			secret: SESSION_SECRET,
 			resave: false,
-			saveUninitialized: true,
+			saveUninitialized: false,
 			store: new pgSession({
 				pool: require('../db'),
 				tableName: 'session',

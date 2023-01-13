@@ -1,7 +1,7 @@
 const authQuery = require('../queries/auth');
-const passportMiddleware = require('passport');
+const passport = require('passport');
 
-module.exports = (app, passport) => {
+module.exports = (app) => {
 	// ------------------- POST ------------------- //
 	// Register new user
 	app.post('/register', async (req, res) => {
@@ -14,13 +14,17 @@ module.exports = (app, passport) => {
 	});
 
 	// Login user
-	app.post('/login', passportMiddleware.authenticate('local'), async (req, res) => {
+	app.post('/login', passport.authenticate('local'), async (req, res) => {
 		res.send(req.user);
 	});
 
 	// Logout user
 	app.get('/logout', (req, res) => {
-		req.logout();
+		req.logout((err) => {
+			if (err) {
+				res.status(400).send({ message: 'User not logged out' });
+			}
+		});
 		res.send({ message: 'User logged out' });
 	});
 };
