@@ -23,17 +23,6 @@ module.exports = (app, passport) => {
 		res.send(result);
 	});
 
-	// ------------------- POST ------------------- //
-	// Create new user
-	app.post('/users', async (req, res) => {
-		try {
-			const result = await userQuery.createUser(req.body);
-			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'User not created' });
-		}
-	});
-
 	// ------------------- PUT ------------------- //
 	// Update user
 	app.put('/users/:id', async (req, res) => {

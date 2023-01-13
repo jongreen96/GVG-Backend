@@ -6,6 +6,10 @@ module.exports = (app, passport) => {
 		res.send('Express e-commerce API - Jon Green');
 	});
 
+	// Auth routes
+	const auth = require('./auth');
+	auth(app, passport);
+
 	// User routes
 	const users = require('./users');
 	users(app, passport);
