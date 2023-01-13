@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-pg-simple": "^8.0.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-session": "^1.17.3",

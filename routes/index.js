@@ -3,7 +3,11 @@ const routes = express.Router();
 
 module.exports = (app, passport) => {
 	app.get('/', (req, res) => {
-		res.send('Express e-commerce API - Jon Green');
+		req.session.viewCount ? req.session.viewCount++ : (req.session.viewCount = 1);
+		res.send(
+			`<h1>Express e-commerce API - Jon Green.</h1>
+			<h2>View count: ${req.session.viewCount}</h2>`
+		);
 	});
 
 	// Auth routes
