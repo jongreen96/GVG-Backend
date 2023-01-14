@@ -2,6 +2,7 @@ const express = require('express');
 const routes = express.Router();
 
 module.exports = (app) => {
+	// Home page
 	app.get('/', (req, res) => {
 		req.session.viewCount ? req.session.viewCount++ : (req.session.viewCount = 1);
 		res.send(
