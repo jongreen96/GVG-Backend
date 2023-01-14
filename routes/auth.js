@@ -1,10 +1,11 @@
 const authQuery = require('../queries/auth');
 const passport = require('passport');
+const { format } = require('../loaders/middleware');
 
 module.exports = (app) => {
 	// ------------------- POST ------------------- //
 	// Register new user
-	app.post('/register', async (req, res) => {
+	app.post('/register', format, async (req, res) => {
 		try {
 			const result = await authQuery.register(req.body);
 			res.send(result);

@@ -1,4 +1,5 @@
 const userQuery = require('../queries/users');
+const { isAuthorized } = require('../loaders/middleware');
 
 module.exports = (app) => {
 	// ------------------- GET ------------------- //
@@ -25,7 +26,7 @@ module.exports = (app) => {
 
 	// ------------------- PUT ------------------- //
 	// Update user
-	app.put('/users/:id', async (req, res) => {
+	app.put('/users/:id', isAuthorized, async (req, res) => {
 		try {
 			const result = await userQuery.updateUser(req.params.id, req.body);
 			res.send(result);
@@ -36,9 +37,14 @@ module.exports = (app) => {
 
 	// ------------------- DELETE ------------------- //
 	// Delete user
-	app.delete('/users/:id', async (req, res) => {
+	app.delete('/users/:id', isAuthorized, async (req, res) => {
 		try {
 			const result = await userQuery.deleteUser(req.params.id);
+			req.logout((err) => {
+				if (err) {
+					res.status(400).send({ message: 'User not logged out' });
+				}
+			});
 			res.send({ message: 'User deleted' });
 		} catch (error) {
 			res.status(400).send({ message: 'User not deleted' });

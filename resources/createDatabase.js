@@ -85,6 +85,17 @@ const { DB } = require('../config');
     );
     `;
 
+	const sessionsTable = `
+    CREATE TABLE "session" (
+        "sid" varchar NOT NULL COLLATE "default",
+        "sess" json NOT NULL,
+        "expire" timestamp(6) NOT NULL
+    )
+    WITH (OIDS=FALSE);
+    ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+    CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+    `;
+
 	try {
 		const db = new Client({
 			user: DB.PGUSER,
@@ -103,6 +114,7 @@ const { DB } = require('../config');
 		await db.query(reviewsTable);
 		await db.query(ordersItemsTable);
 		await db.query(cartsItemsTable);
+		await db.query(sessionsTable);
 
 		await db.end();
 	} catch (err) {
