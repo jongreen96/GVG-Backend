@@ -21,8 +21,8 @@ module.exports = (app) => {
 	users(app);
 
 	// Product routes
-	// const products = require('./products');
-	// products(app);
+	const products = require('./products');
+	products(app);
 
 	// Category routes
 	// const categories = require('./categories');
