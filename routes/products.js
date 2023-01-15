@@ -1,3 +1,4 @@
+const { isAdmin } = require('../loaders/middleware');
 const productQueries = require('../queries/products');
 
 module.exports = (app) => {
@@ -24,7 +25,7 @@ module.exports = (app) => {
 
 	// ------------------- POST ------------------- //
 	// Create new product
-	app.post('/products', async (req, res) => {
+	app.post('/products', isAdmin, async (req, res) => {
 		try {
 			const result = await productQueries.createProduct(req.body);
 			res.send(result);
@@ -35,7 +36,7 @@ module.exports = (app) => {
 
 	// ------------------- PUT ------------------- //
 	// Update product
-	app.put('/products/:id', async (req, res) => {
+	app.put('/products/:id', isAdmin, async (req, res) => {
 		try {
 			const result = await productQueries.updateProduct(req.params.id, req.body);
 			res.send(result);
@@ -46,7 +47,7 @@ module.exports = (app) => {
 
 	// ------------------- DELETE ------------------- //
 	// Delete product
-	app.delete('/products/:id', async (req, res) => {
+	app.delete('/products/:id', isAdmin, async (req, res) => {
 		try {
 			const result = await productQueries.deleteProduct(req.params.id);
 			res.send(result);

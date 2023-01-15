@@ -7,6 +7,15 @@ module.exports = {
 			res.status(401).send({ message: 'Unauthorized' });
 		}
 	},
+	isAdmin: (req, res, next) => {
+		const adminList = process.env.ADMINS.split(',');
+		console.log(adminList);
+		if (adminList.includes(req.user?.email)) {
+			next();
+		} else {
+			res.status(401).send({ message: 'Unauthorized' });
+		}
+	},
 	// formats user input to lowercase
 	format: (req, res, next) => {
 		if (req.body.email) req.body.email = req.body.email.toLowerCase();
