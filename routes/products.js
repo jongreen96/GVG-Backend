@@ -5,7 +5,7 @@ module.exports = (app) => {
 	// Get all products
 	app.get('/products', async (req, res) => {
 		try {
-			const result = await productQueries.getAll();
+			const result = await productQueries.getAllProducts();
 			res.send(result);
 		} catch (error) {
 			res.status(400).send({ message: 'Products not found' });
@@ -15,7 +15,7 @@ module.exports = (app) => {
 	// Get product by id
 	app.get('/products/:id', async (req, res) => {
 		try {
-			const result = await productQueries.getById(req.params.id);
+			const result = await productQueries.getProductById(req.params.id);
 			res.send(result);
 		} catch (error) {
 			res.status(400).send({ message: 'Product not found' });
@@ -26,7 +26,7 @@ module.exports = (app) => {
 	// Create new product
 	app.post('/products', async (req, res) => {
 		try {
-			const result = await productQueries.create(req.body);
+			const result = await productQueries.createProduct(req.body);
 			res.send(result);
 		} catch (error) {
 			res.status(400).send({ message: 'Product not created' });
@@ -37,7 +37,7 @@ module.exports = (app) => {
 	// Update product
 	app.put('/products/:id', async (req, res) => {
 		try {
-			const result = await productQueries.update(req.params.id, req.body);
+			const result = await productQueries.updateProduct(req.params.id, req.body);
 			res.send(result);
 		} catch (error) {
 			res.status(400).send({ message: 'Product not updated' });
@@ -48,7 +48,7 @@ module.exports = (app) => {
 	// Delete product
 	app.delete('/products/:id', async (req, res) => {
 		try {
-			const result = await productQueries.delete(req.params.id);
+			const result = await productQueries.deleteProduct(req.params.id);
 			res.send(result);
 		} catch (error) {
 			res.status(400).send({ message: 'Product not deleted' });

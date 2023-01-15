@@ -1,28 +1,29 @@
 const db = require('../db');
 
 module.exports = {
-	getAll: async () => {
+	getAllProducts: async () => {
 		const result = await db.query('SELECT * FROM products');
 		return result.rows;
 	},
-	getById: async (id) => {
+	getProductById: async (id) => {
 		const result = await db.query('SELECT * FROM products WHERE id = $1', [id]);
 		return result.rows[0];
 	},
-	create: async (product) => {
+	createProduct: async (product) => {
 		const result = await db.query(
-			'INSERT INTO products (name, price, description, images, download_link) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+			'INSERT INTO products (name, price, description, type, images, download_link) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
 			[
 				product.name,
 				product.price,
 				product.description,
+				product.type,
 				product.images,
 				product.download_link,
 			]
 		);
 		return result.rows[0];
 	},
-	update: async (id, product) => {
+	updateProduct: async (id, product) => {
 		let queryStr = 'UPDATE products SET ';
 		const values = [];
 		let i = 1;
@@ -40,5 +41,9 @@ module.exports = {
 		values.push(id);
 		const updatedproduct = await db.query(queryStr, values);
 		return updatedproduct.rows[0];
+	},
+	deleteProduct: async (id) => {
+		const result = await db.query('DELETE FROM products WHERE id = $1', [id]);
+		return result.rows[0];
 	},
 };
