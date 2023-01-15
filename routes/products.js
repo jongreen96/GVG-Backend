@@ -5,7 +5,7 @@ module.exports = (app) => {
 	// Get all products
 	app.get('/products', async (req, res) => {
 		try {
-			const result = await productQueries.getAllProducts();
+			const result = await productQueries.getAllProducts(req.query);
 			res.send(result);
 		} catch (error) {
 			res.status(400).send({ message: 'Products not found' });

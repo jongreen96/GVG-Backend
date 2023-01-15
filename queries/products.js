@@ -1,8 +1,22 @@
 const db = require('../db');
 
 module.exports = {
-	getAllProducts: async () => {
-		const result = await db.query('SELECT * FROM products');
+	getAllProducts: async (query) => {
+		let queryStr = 'SELECT * FROM products';
+
+		// Add query parameters if they exist
+		if (Object.keys(query).length > 0) {
+			queryStr += ' WHERE';
+			for (const key in query) {
+				if (query.hasOwnProperty(key)) {
+					if (['id', 'otherProperties'].includes(key)) continue;
+					queryStr += ` ${key} = '${query[key]}' AND`;
+				}
+			}
+			queryStr = queryStr.slice(0, -4);
+		}
+
+		const result = await db.query(queryStr);
 		return result.rows;
 	},
 	getProductById: async (id) => {
