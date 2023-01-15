@@ -19,6 +19,8 @@ module.exports = {
 		const values = [];
 		let i = 1;
 
+		if (user.password) user.password = await bcrypt.hash(user.password, 10);
+
 		for (const key in user) {
 			if (user.hasOwnProperty(key)) {
 				if (['id', 'otherProperties'].includes(key)) continue;
