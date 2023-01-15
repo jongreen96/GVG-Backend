@@ -22,6 +22,7 @@ const { DB } = require('../config');
         name            VARCHAR(100)    UNIQUE NOT NULL,
         price           NUMERIC,
         description     TEXT            NOT NULL,
+        category        VARCHAR(50)     NOT NULL,
         type            VARCHAR(50)     NOT NULL,
         images          TEXT[]          NOT NULL,
         download_link   VARCHAR(255),
@@ -33,6 +34,7 @@ const { DB } = require('../config');
 	const cartsTable = `
     CREATE TABLE carts (
         id              SERIAL          PRIMARY KEY,
+        user_id         INTEGER         REFERENCES users(id) NOT NULL,
         total           NUMERIC,
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
         modified        timestamp       DEFAULT CURRENT_TIMESTAMP
