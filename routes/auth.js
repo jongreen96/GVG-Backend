@@ -16,16 +16,16 @@ module.exports = (app) => {
 
 	// Login user
 	app.post('/login', passport.authenticate('local'), async (req, res) => {
-		res.send(req.user);
+		res.status(200).redirect('/');
 	});
 
 	// Logout user
-	app.get('/logout', (req, res) => {
+	app.post('/logout', (req, res) => {
 		req.logout((err) => {
 			if (err) {
 				res.status(400).send({ message: 'User not logged out' });
 			}
 		});
-		res.send({ message: 'User logged out' });
+		res.status(200).redirect('/');
 	});
 };
