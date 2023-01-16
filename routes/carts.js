@@ -45,4 +45,14 @@ module.exports = (app) => {
 			res.status(400).send({ message: 'Item not removed from cart' });
 		}
 	});
+
+	// Remove all items from cart
+	app.delete('/carts/:id/all', isAuthorized, async (req, res) => {
+		try {
+			const result = await cartQueries.removeAllItemsFromCart(req.params.id);
+			res.send(result);
+		} catch (error) {
+			res.status(400).send({ message: 'Items not removed from cart' });
+		}
+	});
 };

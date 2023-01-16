@@ -66,4 +66,15 @@ module.exports = {
 		);
 		return removedItem.rows[0];
 	},
+	removeAllItemsFromCart: async (id) => {
+		// Get cart
+		const cart = await db.query('SELECT * FROM carts WHERE user_id = $1', [id]);
+		if (!cart.rows[0]) return { error: 'Cart not found' };
+		// Remove all items
+		const removedItems = await db.query(
+			'DELETE FROM carts_items WHERE cart_id = $1 RETURNING *',
+			[cart.rows[0].id]
+		);
+		return removedItems.rows;
+	},
 };
