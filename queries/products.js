@@ -25,11 +25,12 @@ module.exports = {
 	},
 	createProduct: async (product) => {
 		const result = await db.query(
-			'INSERT INTO products (name, price, description, type, images, download_link) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+			'INSERT INTO products (name, price, description, category, type, images, download_link) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
 			[
 				product.name,
 				product.price,
 				product.description,
+				product.category,
 				product.type,
 				product.images,
 				product.download_link,

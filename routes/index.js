@@ -24,10 +24,6 @@ module.exports = (app) => {
 	const products = require('./products');
 	products(app);
 
-	// Category routes
-	// const categories = require('./categories');
-	// categories(app);
-
 	// Order routes
 	// const orders = require('./orders');
 	// orders(app);

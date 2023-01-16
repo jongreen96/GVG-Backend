@@ -9,7 +9,6 @@ module.exports = {
 	},
 	isAdmin: (req, res, next) => {
 		const adminList = process.env.ADMINS.split(',');
-		console.log(adminList);
 		if (adminList.includes(req.user?.email)) {
 			next();
 		} else {
