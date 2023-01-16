@@ -12,7 +12,7 @@ const { DB } = require('../config');
         last_name       VARCHAR(50)     NOT NULL,
         address         VARCHAR(255),
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
-        modified        timestamp       DEFAULT CURRENT_TIMESTAMP
+        modified        timestamp
     );
     `;
 
@@ -20,22 +20,23 @@ const { DB } = require('../config');
     CREATE TABLE products (
         id              SERIAL          PRIMARY KEY,
         name            VARCHAR(100)    UNIQUE NOT NULL,
-        price           NUMERIC,
+        price           NUMERIC         NOT NULL,
         description     TEXT            NOT NULL,
+        category        VARCHAR(50)     NOT NULL,
         type            VARCHAR(50)     NOT NULL,
         images          TEXT[]          NOT NULL,
         download_link   VARCHAR(255),
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
-        modified        timestamp       DEFAULT CURRENT_TIMESTAMP
+        modified        timestamp
     );
     `;
 
 	const cartsTable = `
     CREATE TABLE carts (
         id              SERIAL          PRIMARY KEY,
-        total           NUMERIC,
+        total           NUMERIC         NOT NULL,
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
-        modified        timestamp       DEFAULT CURRENT_TIMESTAMP
+        modified        timestamp
     );
     `;
 
@@ -46,7 +47,7 @@ const { DB } = require('../config');
         status          VARCHAR(50)     NOT NULL,
         total           NUMERIC,
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
-        modified        timestamp       DEFAULT CURRENT_TIMESTAMP
+        modified        timestamp
     );
     `;
 
@@ -57,8 +58,9 @@ const { DB } = require('../config');
         user_id         INTEGER         REFERENCES users(id) NOT NULL,
         score           INTEGER         NOT NULL,
         description     TEXT,
+        images          TEXT[],
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
-        modified        timestamp       DEFAULT CURRENT_TIMESTAMP
+        modified        timestamp
     );
     `;
 
@@ -70,7 +72,7 @@ const { DB } = require('../config');
         quantity        INTEGER         NOT NULL,
         status          VARCHAR(50)     NOT NULL,
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
-        modified        timestamp       DEFAULT CURRENT_TIMESTAMP
+        modified        timestamp
     );
     `;
 
@@ -81,7 +83,7 @@ const { DB } = require('../config');
         cart_id         INTEGER         REFERENCES carts(id) NOT NULL,
         quantity        INTEGER         NOT NULL,
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
-        modified        timestamp       DEFAULT CURRENT_TIMESTAMP
+        modified        timestamp
     );
     `;
 
