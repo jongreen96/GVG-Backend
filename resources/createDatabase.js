@@ -35,7 +35,6 @@ const { DB } = require('../config');
     CREATE TABLE carts (
         id              SERIAL          PRIMARY KEY,
         user_id         INTEGER         REFERENCES users(id) NOT NULL,
-        total           NUMERIC         NOT NULL,
         created         timestamp       DEFAULT CURRENT_TIMESTAMP,
         modified        timestamp
     );

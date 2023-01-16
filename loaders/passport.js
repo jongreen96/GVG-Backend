@@ -23,6 +23,7 @@ module.exports = (app) => {
 				passwordField: 'password',
 			},
 			async (email, password, done) => {
+				email = email.toLowerCase();
 				const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
 				if (!user.rows[0]) {
 					return done(null, false, { message: 'Email not registered' });
