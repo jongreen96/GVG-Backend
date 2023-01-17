@@ -32,6 +32,10 @@ module.exports = (app) => {
 	const carts = require('./carts');
 	carts(app);
 
+	// Checkout routes
+	const checkout = require('./checkout');
+	checkout(app);
+
 	// Review routes
 	// const reviews = require('./reviews');
 	// reviews(app);
