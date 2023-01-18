@@ -26,6 +26,12 @@ module.exports = {
 			'INSERT INTO orders (user_id, total, status) VALUES ($1, $2, $3) RETURNING *',
 			[userId, total.rows[0].sum, 'pending']
 		);
+		const orderItems = cartItems.rows.map((item) => {
+			return db.query(
+				'INSERT INTO orders_items (order_id, product_id, quantity, status) VALUES ($1, $2, $3, $4)',
+				[order.rows[0].id, item.product_id, item.quantity, 'pending']
+			);
+		});
 
 		takePayment(userId, cartId, orderDetails, total.rows[0].sum);
 
