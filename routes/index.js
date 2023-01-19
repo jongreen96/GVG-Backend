@@ -37,6 +37,6 @@ module.exports = (app) => {
 	checkout(app);
 
 	// Review routes
-	// const reviews = require('./reviews');
-	// reviews(app);
+	const reviews = require('./reviews');
+	reviews(app);
 };
