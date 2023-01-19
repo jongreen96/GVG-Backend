@@ -2,20 +2,29 @@ const db = require('../db');
 const bcrypt = require('bcryptjs');
 
 module.exports = {
-	getUserById: async (id) => {
-		const user = await db.query('SELECT * FROM users WHERE id = $1', [id]);
-		return user.rows[0];
+	getUserById: async (req) => {
+		const user = await db.query('SELECT * FROM users WHERE id = $1', [req.params.id]);
+		if (!user.rows[0]) throw new Error('User not found');
+		if (req.user.id === user.rows[0].id) {
+			return {
+				email: user.rows[0].email,
+				username: user.rows[0].username,
+				firstName: user.rows[0].first_name,
+				lastName: user.rows[0].last_name,
+				address: user.rows[0].address,
+				created: user.rows[0].created,
+			};
+		} else {
+			return {
+				firstName: user.rows[0].first_name,
+				lastName: user.rows[0].last_name,
+				username: user.rows[0].username,
+			};
+		}
 	},
-	getUserByEmail: async (email) => {
-		const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-		return user.rows[0];
-	},
-	getUserByUsername: async (username) => {
-		const user = await db.query('SELECT * FROM users WHERE username = $1', [username]);
-		return user.rows[0];
-	},
-	updateUser: async (id, user) => {
-		let queryStr = 'UPDATE users SET ';
+	updateUser: async (req) => {
+		const user = req.body;
+		let queryStr = 'UPDATE users SET modified = NOW(),';
 		const values = [];
 		let i = 1;
 
@@ -31,9 +40,16 @@ module.exports = {
 		}
 		queryStr = queryStr.slice(0, -2);
 		queryStr += ' WHERE id = $' + i + ' RETURNING *';
-		values.push(id);
+		values.push(req.params.id);
 		const updatedUser = await db.query(queryStr, values);
-		return updatedUser.rows[0];
+		return {
+			email: updatedUser.rows[0].email,
+			username: updatedUser.rows[0].username,
+			firstName: updatedUser.rows[0].first_name,
+			lastName: updatedUser.rows[0].last_name,
+			address: updatedUser.rows[0].address,
+			created: updatedUser.rows[0].created,
+		};
 	},
 	deleteUser: async (id) => {
 		const deletedUser = await db.query('DELETE FROM users WHERE id = $1', [id]);
