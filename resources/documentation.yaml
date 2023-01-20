@@ -5,6 +5,7 @@ info:
     description: An API used for an e-commerce store made for Codecademy
 paths:
     /users/{userId}:
+        summary: Endpoint for everything users
         get:
             summary: Get user by ID
             parameters:
@@ -185,3 +186,228 @@ paths:
                                     value: Unauthorized
             tags:
                 - users
+    /products:
+        summary: Endpoint for everything products
+        get:
+            summary: Requests all products
+            description: Used to pull all products from database
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request for all products:
+                                    value: |-
+                                        [
+                                            {
+                                                "name": "iPhone 14 Pro Max Vector Template",
+                                                "price": "5",
+                                                "description": "High quality vector template for cutting out vinyl skins for iPhone 14 Pro Max",
+                                                "category": "apple",
+                                                "type": "digital",
+                                                "images": [
+                                                    "https://image1.jpg",
+                                                    "https://image2.jpg",
+                                                    "https://image3.jpg"
+                                                ]
+                                            },
+                                            {
+                                                "name": "iPhone 12 Pro Max Vector Template",
+                                                "price": "5",
+                                                "description": "High quality vector template for cutting out vinyl skins for iPhone 12 Pro Max",
+                                                "category": "apple",
+                                                "type": "digital",
+                                                "images": [
+                                                    "https://image1.jpg",
+                                                    "https://image2.jpg",
+                                                    "https://image3.jpg"
+                                                ]
+                                            }
+                                        ]
+                '404':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "No Products found"
+                                        }
+            tags:
+                - products
+        post:
+            summary: Add new product
+            description: Adds new product to database, requires admin rights
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        {
+                                            "name": "iPhone 13 Pro Max Vector Template",
+                                            "price": "5",
+                                            "description": "High quality vector template for cutting out vinyl skins for iPhone 13 Pro Max",
+                                            "category": "apple",
+                                            "type": "digital",
+                                            "images": [
+                                                "https://image1.jpg",
+                                                "https://image2.jpg",
+                                                "https://image3.jpg"
+                                            ]
+                                        }
+                '400':
+                    description: Failed request due to missing required information
+                    content:
+                        application/json:
+                            examples:
+                                Failed request due to missing required information:
+                                    value: |-
+                                        {
+                                            "message": "Missing input: name"
+                                        }
+                '500':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "Product not created"
+                                        }
+            tags:
+                - products
+    /products/{productId}:
+        summary: Specific product request
+        parameters:
+            - name: productId
+              in: path
+              description: ID of the product to retrieve
+              required: true
+              schema:
+                  type: integer
+        get:
+            summary: Get product by productId
+            description: Request for specific products
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        {
+                                            "name": "iPhone 14 Pro Max Vector Template",
+                                            "price": "5",
+                                            "description": "High quality vector template for cutting out vinyl skins for iPhone 14 Pro Max",
+                                            "category": "apple",
+                                            "type": "digital",
+                                            "images": [
+                                                "https://image1.jpg",
+                                                "https://image2.jpg",
+                                                "https://image3.jpg"
+                                            ]
+                                        }
+                '404':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "No product found"
+                                        }
+            tags:
+                - products
+        put:
+            summary: Update product by productId, requires admin privileges
+            parameters:
+                - name: productId
+                  in: path
+                  description: ID of the product to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            description: 'Updates one or many properties of a product '
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful Request:
+                                    value: |-
+                                        {
+                                            "name": "iPhone 13 Pro Max Vector Template",
+                                            "price": "5",
+                                            "description": "High quality vector template for cutting out vinyl skins for iPhone 13 Pro Max",
+                                            "category": "apple",
+                                            "type": "digital",
+                                            "images": [
+                                                "https://image1.jpg",
+                                                "https://image2.jpg",
+                                                "https://image3.jpg"
+                                            ]
+                                        }
+                '400':
+                    description: Failed request from incorrect input
+                    content:
+                        application/json:
+                            examples:
+                                Failed request from incorrect input:
+                                    value: |-
+                                        {
+                                            "message": "column \"pricse\" of relation \"products\" does not exist"
+                                        }
+                '500':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed update:
+                                    value: |-
+                                        {
+                                            "message": "Error updating product"
+                                        }
+            tags:
+                - products
+        delete:
+            summary: Delete product by productId
+            description: >-
+                Deletes a product from the database by productId, requires admin
+                privileges
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful Request:
+                                    value: |-
+                                        {
+                                            "message": "Product deleted"
+                                        }
+                '404':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "No product found"
+                                        }
+            tags:
+                - products

@@ -43,7 +43,10 @@ module.exports = (app) => {
 			const result = await productQueries.updateProduct(req.params.id, req.body);
 			res.send(result);
 		} catch (err) {
-			res.status(400).send({ message: err.message });
+			console.log(err);
+			err.column
+				? res.status(400).send({ message: `${err.column} does not exist` })
+				: res.status(500).send({ message: err.message });
 		}
 	});
 
