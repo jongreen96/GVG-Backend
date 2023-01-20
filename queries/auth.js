@@ -16,13 +16,12 @@ module.exports = {
 				user.address,
 			]
 		);
-		return newUser.rows[0];
-	},
-	login: async (email, password) => {
-		const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-		if (!user.rows[0]) return { error: 'User not found' };
-		const match = await bcrypt.compare(password, user.rows[0].password);
-		if (!match) return { error: 'Incorrect password' };
-		return user.rows[0];
+		return {
+			email: newUser.rows[0].email,
+			username: newUser.rows[0].username,
+			firstName: newUser.rows[0].first_name,
+			lastName: newUser.rows[0].last_name,
+			address: newUser.rows[0].address,
+		};
 	},
 };

@@ -26,7 +26,7 @@ module.exports = (app) => {
 				email = email.toLowerCase();
 				const user = await db.query('SELECT * FROM users WHERE email = $1', [email]);
 				if (!user.rows[0]) {
-					return done(null, false, { message: 'Email not registered' });
+					return done(null, false, { message: 'User not found' });
 				}
 				const validPassword = await bcrypt.compare(password, user.rows[0].password);
 				if (!validPassword) {

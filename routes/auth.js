@@ -9,8 +9,10 @@ module.exports = (app) => {
 		try {
 			const result = await authQuery.register(req.body);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'User not registered' });
+		} catch (err) {
+			err.column
+				? res.status(400).send({ message: `Missing input: ${err.column}` })
+				: res.status(400).send({ message: 'User not registered' });
 		}
 	});
 
