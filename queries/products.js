@@ -17,11 +17,31 @@ module.exports = {
 		}
 
 		const result = await db.query(queryStr);
-		return result.rows;
+		if (result.rows.length === 0) throw new Error('No products found');
+		let products = [];
+		result.rows.map((product) => {
+			products.push({
+				name: product.name,
+				price: product.price,
+				description: product.description,
+				category: product.category,
+				type: product.type,
+				images: product.images,
+			});
+		});
+		return products;
 	},
 	getProductById: async (id) => {
 		const result = await db.query('SELECT * FROM products WHERE id = $1', [id]);
-		return result.rows[0];
+		if (result.rows.length === 0) throw new Error('No product found');
+		return {
+			name: result.rows[0].name,
+			price: result.rows[0].price,
+			description: result.rows[0].description,
+			category: result.rows[0].category,
+			type: result.rows[0].type,
+			images: result.rows[0].images,
+		};
 	},
 	createProduct: async (product) => {
 		const result = await db.query(
@@ -36,7 +56,15 @@ module.exports = {
 				product.download_link,
 			]
 		);
-		return result.rows[0];
+		if (result.rows.length === 0) throw new Error('Error creating product');
+		return {
+			name: result.rows[0].name,
+			price: result.rows[0].price,
+			description: result.rows[0].description,
+			category: result.rows[0].category,
+			type: result.rows[0].type,
+			images: result.rows[0].images,
+		};
 	},
 	updateProduct: async (id, product) => {
 		let queryStr = 'UPDATE products SET ';
@@ -55,10 +83,22 @@ module.exports = {
 		queryStr += ' WHERE id = $' + i + ' RETURNING *';
 		values.push(id);
 		const updatedproduct = await db.query(queryStr, values);
-		return updatedproduct.rows[0];
+		if (updatedproduct.rows.length === 0) throw new Error('Error updating product');
+		return {
+			name: updatedproduct.rows[0].name,
+			price: updatedproduct.rows[0].price,
+			description: updatedproduct.rows[0].description,
+			category: updatedproduct.rows[0].category,
+			type: updatedproduct.rows[0].type,
+			images: updatedproduct.rows[0].images,
+		};
 	},
 	deleteProduct: async (id) => {
+		const product = await db.query('SELECT * FROM products WHERE id = $1', [id]);
+		if (product.rows.length === 0) throw new Error('No product found');
 		const result = await db.query('DELETE FROM products WHERE id = $1', [id]);
-		return result.rows[0];
+		return {
+			message: 'Product deleted',
+		};
 	},
 };

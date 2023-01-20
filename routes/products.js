@@ -8,8 +8,8 @@ module.exports = (app) => {
 		try {
 			const result = await productQueries.getAllProducts(req.query);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Products not found' });
+		} catch (err) {
+			res.status(404).send({ message: err.message });
 		}
 	});
 
@@ -18,8 +18,8 @@ module.exports = (app) => {
 		try {
 			const result = await productQueries.getProductById(req.params.id);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Product not found' });
+		} catch (err) {
+			res.status(404).send({ message: err.message });
 		}
 	});
 
@@ -29,8 +29,10 @@ module.exports = (app) => {
 		try {
 			const result = await productQueries.createProduct(req.body);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Product not created' });
+		} catch (err) {
+			err.column
+				? res.status(400).send({ message: `Missing input: ${err.column}` })
+				: res.status(500).send({ message: err.message });
 		}
 	});
 
@@ -40,8 +42,8 @@ module.exports = (app) => {
 		try {
 			const result = await productQueries.updateProduct(req.params.id, req.body);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Product not updated' });
+		} catch (err) {
+			res.status(400).send({ message: err.message });
 		}
 	});
 
@@ -51,8 +53,8 @@ module.exports = (app) => {
 		try {
 			const result = await productQueries.deleteProduct(req.params.id);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Product not deleted' });
+		} catch (err) {
+			res.status(404).send({ message: err.message });
 		}
 	});
 };
