@@ -1,0 +1,187 @@
+openapi: 3.0.1
+info:
+    title: E-commerce REST API
+    version: 1.0.0
+    description: An API used for an e-commerce store made for Codecademy
+paths:
+    /users/{userId}:
+        get:
+            summary: Get user by ID
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            description: >-
+                Returns user data by ID , returns full info if requesting own data,
+                basic info if requesting others
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Returning own ID:
+                                    value: |-
+                                        {
+                                            "email": "example@gmail.com",
+                                            "username": null,
+                                            "firstName": "John",
+                                            "lastName": "Doe",
+                                            "address": null,
+                                            "created": "2023-01-16T13:07:46.799Z"
+                                        }
+                                Requesting others data:
+                                    value: |-
+                                        {
+                                            "firstName": "John",
+                                            "lastName": "Doe",
+                                            "username": null
+                                        }
+                '404':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Requesting an incorrect userID:
+                                    value: |-
+                                        {
+                                            "message": "User not found"
+                                        }
+            tags:
+                - users
+        put:
+            summary: Updates user by ID
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            description: Returns full user data with updated information
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful Update
+                    content:
+                        application/json:
+                            examples:
+                                Updating valid info:
+                                    value: |-
+                                        {
+                                            "email": "example@gmail.com",
+                                            "username": null,
+                                            "firstName": "John",
+                                            "lastName": "Doe",
+                                            "address": null,
+                                            "created": "2023-01-16T13:07:46.799Z"
+                                        }
+                '400':
+                    description: Failed update
+                    content:
+                        application/json:
+                            examples:
+                                Updating valid info:
+                                    value: |-
+                                        {
+                                            "message": "User not updated"
+                                        }
+            tags:
+                - users
+        delete:
+            summary: Deletes user by ID
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            description: Returns deletion message
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful deletion
+                    content:
+                        application/json:
+                            examples:
+                                Deleting valid user:
+                                    value: |-
+                                        {
+                                            "message": "User deleted"
+                                        }
+                '400':
+                    description: failed deletion
+                    content:
+                        application/json:
+                            examples:
+                                Deleting invalid info:
+                                    value: |-
+                                        {
+                                            "message": "User not deleted"
+                                        }
+            tags:
+                - users
+    /register:
+        summary: Registers new users
+        post:
+            summary: Register new users
+            description: Adds new users to database
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful registration
+                    content:
+                        application/json:
+                            examples:
+                                Registration of new user:
+                                    value: |-
+                                        {
+                                            "email": "example@gmail.com",
+                                            "username": null,
+                                            "firstName": "John",
+                                            "lastName": "Doe",
+                                            "address": null
+                                        }
+                '400':
+                    description: failed registration
+                    content:
+                        application/json:
+                            examples:
+                                Failed registration:
+                                    value: |-
+                                        {
+                                            "message": "User not registered"
+                                        }
+            tags:
+                - users
+    /login:
+        summary: User login
+        post:
+            summary: Login user
+            description: Logs user into account
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful login
+                    content:
+                        application/json:
+                            examples:
+                                Successful login:
+                                    value: |-
+                                        <h1>Express e-commerce API - Jon Green.</h1>
+                                        <h2>View count: 1</h2>
+                                        <h2>User: John Doe</h2>
+                '401':
+                    description: failed login
+                    content:
+                        text/plain; charset=utf-8:
+                            examples:
+                                Failed login:
+                                    value: Unauthorized
+            tags:
+                - users
