@@ -67,7 +67,7 @@ module.exports = {
 		};
 	},
 	updateProduct: async (id, product) => {
-		let queryStr = 'UPDATE products SET ';
+		let queryStr = 'UPDATE products SET modified = now(), ';
 		const values = [];
 		let i = 1;
 
