@@ -2,7 +2,7 @@ const db = require('../db');
 
 module.exports = {
 	getAllProducts: async (query) => {
-		let queryStr = 'SELECT * FROM products';
+		let queryStr = 'SELECT name, price, description, category, type, images FROM products';
 
 		// Add query parameters if they exist
 		if (Object.keys(query).length > 0) {
@@ -20,32 +20,21 @@ module.exports = {
 		if (result.rows.length === 0) throw new Error('No products found');
 		let products = [];
 		result.rows.map((product) => {
-			products.push({
-				name: product.name,
-				price: product.price,
-				description: product.description,
-				category: product.category,
-				type: product.type,
-				images: product.images,
-			});
+			products.push(product);
 		});
 		return products;
 	},
 	getProductById: async (id) => {
-		const result = await db.query('SELECT * FROM products WHERE id = $1', [id]);
+		const result = await db.query(
+			'SELECT name, price, description, category, type, images FROM products WHERE id = $1',
+			[id]
+		);
 		if (result.rows.length === 0) throw new Error('No product found');
-		return {
-			name: result.rows[0].name,
-			price: result.rows[0].price,
-			description: result.rows[0].description,
-			category: result.rows[0].category,
-			type: result.rows[0].type,
-			images: result.rows[0].images,
-		};
+		return result.rows[0];
 	},
 	createProduct: async (product) => {
 		const result = await db.query(
-			'INSERT INTO products (name, price, description, category, type, images, download_link) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+			'INSERT INTO products (name, price, description, category, type, images, download_link) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING name, price, description, category, type, images, download_link',
 			[
 				product.name,
 				product.price,
@@ -57,14 +46,7 @@ module.exports = {
 			]
 		);
 		if (result.rows.length === 0) throw new Error('Error creating product');
-		return {
-			name: result.rows[0].name,
-			price: result.rows[0].price,
-			description: result.rows[0].description,
-			category: result.rows[0].category,
-			type: result.rows[0].type,
-			images: result.rows[0].images,
-		};
+		return result.rows[0];
 	},
 	updateProduct: async (id, product) => {
 		let queryStr = 'UPDATE products SET modified = now(), ';
@@ -80,18 +62,12 @@ module.exports = {
 			}
 		}
 		queryStr = queryStr.slice(0, -2);
-		queryStr += ' WHERE id = $' + i + ' RETURNING *';
+		queryStr +=
+			' WHERE id = $' + i + ' RETURNING name, price, description, category, type, images';
 		values.push(id);
 		const updatedproduct = await db.query(queryStr, values);
 		if (updatedproduct.rows.length === 0) throw new Error('Error updating product');
-		return {
-			name: updatedproduct.rows[0].name,
-			price: updatedproduct.rows[0].price,
-			description: updatedproduct.rows[0].description,
-			category: updatedproduct.rows[0].category,
-			type: updatedproduct.rows[0].type,
-			images: updatedproduct.rows[0].images,
-		};
+		return updatedproduct.rows[0];
 	},
 	deleteProduct: async (id) => {
 		const product = await db.query('SELECT * FROM products WHERE id = $1', [id]);
