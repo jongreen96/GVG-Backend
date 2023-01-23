@@ -7,8 +7,8 @@ module.exports = (app) => {
 		try {
 			const result = await reviewsQueries.getAllReviews();
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Reviews not found' });
+		} catch (err) {
+			res.status(400).send({ message: err.message });
 		}
 	});
 
@@ -17,8 +17,8 @@ module.exports = (app) => {
 		try {
 			const result = await reviewsQueries.getReviewByProductId(req.params.productId);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Review not found' });
+		} catch (err) {
+			res.status(400).send({ message: err.message });
 		}
 	});
 
@@ -28,7 +28,7 @@ module.exports = (app) => {
 		try {
 			const result = await reviewsQueries.createReview(req.body);
 			res.send(result);
-		} catch (error) {
+		} catch (err) {
 			res.status(400).send({ message: 'Review not created' });
 		}
 	});
@@ -39,8 +39,8 @@ module.exports = (app) => {
 		try {
 			const result = await reviewsQueries.updateReview(req.params.id, req.body);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Review not updated' });
+		} catch (err) {
+			res.status(400).send({ message: err.message });
 		}
 	});
 
@@ -49,9 +49,9 @@ module.exports = (app) => {
 	app.delete('/reviews/:id', async (req, res) => {
 		try {
 			const result = await reviewsQueries.deleteReview(req.params.id);
-			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Review not deleted' });
+			res.send();
+		} catch (err) {
+			res.status(400).send({ message: err.message });
 		}
 	});
 };
