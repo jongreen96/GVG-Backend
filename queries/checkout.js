@@ -14,6 +14,8 @@ const takePayment = async (userId, cartId, orderDetails, total) => {
 
 module.exports = {
 	createOrder: async (userId, orderDetails) => {
+		if (!orderDetails) throw new Error('No payment details provided');
+
 		const cartId = await db.query('SELECT id FROM carts WHERE user_id = $1', [userId]);
 		const cartItems = await db.query('SELECT * FROM carts_items WHERE cart_id = $1', [
 			cartId.rows[0].id,

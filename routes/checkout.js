@@ -6,8 +6,8 @@ module.exports = (app) => {
 		try {
 			const result = await checkoutQueries.createOrder(req.params.id, req.body);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Order not created' });
+		} catch (err) {
+			res.status(400).send({ message: err.message });
 		}
 	});
 };
