@@ -8,8 +8,8 @@ module.exports = (app) => {
 		try {
 			const result = await cartQueries.getCartByUserId(req.params.id);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Cart not found' });
+		} catch (err) {
+			res.status(500).send({ message: err.message });
 		}
 	});
 
@@ -19,8 +19,8 @@ module.exports = (app) => {
 		try {
 			const result = await cartQueries.addItemToCart(req.params.id, req.body);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Item not added to cart' });
+		} catch (err) {
+			res.status(500).send({ message: err.message });
 		}
 	});
 
@@ -30,8 +30,8 @@ module.exports = (app) => {
 		try {
 			const result = await cartQueries.updateItemInCart(req.params.id, req.body);
 			res.send(result);
-		} catch (error) {
-			res.status(400).send({ message: 'Item not updated in cart' });
+		} catch (err) {
+			res.status(500).send({ message: err.message });
 		}
 	});
 
@@ -41,7 +41,7 @@ module.exports = (app) => {
 		try {
 			const result = await cartQueries.removeItemFromCart(req.params.id, req.body);
 			res.send(result);
-		} catch (error) {
+		} catch (err) {
 			res.status(400).send({ message: 'Item not removed from cart' });
 		}
 	});
@@ -51,7 +51,7 @@ module.exports = (app) => {
 		try {
 			const result = await cartQueries.removeAllItemsFromCart(req.params.id);
 			res.send(result);
-		} catch (error) {
+		} catch (err) {
 			res.status(400).send({ message: 'Items not removed from cart' });
 		}
 	});
