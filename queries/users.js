@@ -39,17 +39,13 @@ module.exports = {
 			}
 		}
 		queryStr = queryStr.slice(0, -2);
-		queryStr += ' WHERE id = $' + i + ' RETURNING *';
+		queryStr +=
+			' WHERE id = $' +
+			i +
+			' RETURNING email, username, first_name, last_name, address, created';
 		values.push(req.params.id);
 		const updatedUser = await db.query(queryStr, values);
-		return {
-			email: updatedUser.rows[0].email,
-			username: updatedUser.rows[0].username,
-			firstName: updatedUser.rows[0].first_name,
-			lastName: updatedUser.rows[0].last_name,
-			address: updatedUser.rows[0].address,
-			created: updatedUser.rows[0].created,
-		};
+		return updatedUser.rows[0];
 	},
 	deleteUser: async (id) => {
 		const deletedUser = await db.query('DELETE FROM users WHERE id = $1', [id]);
