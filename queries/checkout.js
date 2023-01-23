@@ -20,12 +20,15 @@ module.exports = {
 		const cartItems = await db.query('SELECT * FROM carts_items WHERE cart_id = $1', [
 			cartId.rows[0].id,
 		]);
+
+		if (cartItems.rows.length === 0) throw new Error('Cart is empty');
+
 		const total = await db.query(
 			'SELECT sum(carts_items.quantity * products.price) FROM carts_items, products WHERE carts_items.product_id = products.id AND carts_items.cart_id = $1',
 			[cartId.rows[0].id]
 		);
 		const order = await db.query(
-			'INSERT INTO orders (user_id, total, status) VALUES ($1, $2, $3) RETURNING *',
+			'INSERT INTO orders (user_id, total, status) VALUES ($1, $2, $3) RETURNING id, total, status',
 			[userId, total.rows[0].sum, 'pending']
 		);
 		const orderItems = cartItems.rows.map((item) => {
