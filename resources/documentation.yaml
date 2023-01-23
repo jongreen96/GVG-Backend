@@ -536,7 +536,7 @@ paths:
             tags:
                 - carts
         delete:
-            summary: Delete item from cart by userId
+            summary: Delete item from cart
             description: Deletes one item from a cart
             parameters:
                 - name: userId
@@ -635,7 +635,7 @@ paths:
     /orders/{userId}:
         summary: Get orders by userId
         get:
-            summary: Fetch all orders from user by userId
+            summary: Fetch all orders from user
             description: Gets orders from user by userId
             parameters:
                 - name: userId
@@ -735,3 +735,205 @@ paths:
                                         }
             tags:
                 - orders
+    /reviews:
+        summary: Endpoint for everything reviews
+        get:
+            summary: Fetch all reviews
+            description: Gets all reviews from database
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        [
+                                            {
+                                                "product_id": 4,
+                                                "user_id": 1,
+                                                "score": 4,
+                                                "description": "I'ts aight I guess",
+                                                "images": null,
+                                                "created": "2023-01-23T19:02:33.327Z"
+                                            },
+                                            {
+                                                "product_id": 5,
+                                                "user_id": 2,
+                                                "score": 1,
+                                                "description": "My disappointment is immeasurable and my day is ruined",
+                                                "images": null,
+                                                "created": "2023-01-23T19:09:15.686Z"
+                                            },
+                                            {
+                                                "product_id": 1,
+                                                "user_id": 1,
+                                                "score": 5,
+                                                "description": "I'm in LOVE with this product!",
+                                                "images": null,
+                                                "created": "2023-01-23T19:06:06.120Z"
+                                            }
+                                        ]
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                                                "message": "Reviews not found"
+                                                            }
+            tags:
+                - Reviews
+        post:
+            summary: Add new review
+            description: Creates a new review for a product
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        {
+                                            "product_id": 2,
+                                            "user_id": 1,
+                                            "score": 5,
+                                            "description": "Incredible!",
+                                            "images": null
+                                        }
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "Review not created"
+                                        }
+            tags:
+                - Reviews
+    /reviews/{productId}:
+        summary: All reviews by productId
+        get:
+            summary: Fetch all reviews for product
+            description: Fetch all reviews for product by productId
+            parameters:
+                - name: productId
+                  in: path
+                  description: ID of the product to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        [
+                                            {
+                                                "product_id": 4,
+                                                "user_id": 1,
+                                                "score": 4,
+                                                "description": "I'ts aight I guess",
+                                                "images": null,
+                                                "created": "2023-01-23T19:02:33.327Z"
+                                            }
+                                        ]
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "Reviews not found"
+                                        }
+            tags:
+                - Reviews
+    /reviews/{reviewId}:
+        summary: Review by reviewId
+        put:
+            summary: Update review
+            description: Update review by reviewId
+            parameters:
+                - name: reviewId
+                  in: path
+                  description: ID of the review to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        {
+                                            "product_id": 4,
+                                            "user_id": 1,
+                                            "score": 4,
+                                            "description": "It's alright I guess",
+                                            "images": null
+                                        }
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Missing review:
+                                    value: |-
+                                        {
+                                            "message": "Review not found"
+                                        }
+                                Late update:
+                                    value: |-
+                                        {
+                                            "message": "Review cannot be updated after X days"
+                                        }
+            tags:
+                - Reviews
+        delete:
+            summary: Delete review
+            description: Delete a review by reviewId
+            parameters:
+                - name: reviewId
+                  in: path
+                  description: ID of the review to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Incorrect reviewId:
+                                    value: |-
+                                        {
+                                            "message": "Review not found"
+                                        }
+                                Late deletion:
+                                    value: |-
+                                        {
+                                            "message": "Review cannot be deleted after X days"
+                                        }
+            tags:
+                - Reviews
