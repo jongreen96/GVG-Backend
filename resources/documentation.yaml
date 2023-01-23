@@ -589,3 +589,149 @@ paths:
                                         }
             tags:
                 - carts
+    /carts/{userId}/checkout:
+        summary: Order processing for carts
+        post:
+            summary: Payment processing and order creation
+            description: Moves cart to orders after taking payment
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        {
+                                            "id": 1,
+                                            "total": 15,
+                                            "status": "pending"
+                                        }
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Empty cart:
+                                    value: |-
+                                        {
+                                            "message": "Cart is empty"
+                                        }
+                                Missing payment details:
+                                    value: |-
+                                        {
+                                            "message": "No payment details provided"
+                                        }
+            tags:
+                - carts
+    /orders/{userId}:
+        summary: Get orders by userId
+        get:
+            summary: Fetch all orders from user by userId
+            description: Gets orders from user by userId
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        [
+                                            {
+                                                "id": 1,
+                                                "status": "paid",
+                                                "total": "20",
+                                                "created": "2023-01-23T18:10:39.498Z"
+                                            }
+                                        ]
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "No orders found"
+                                        }
+            tags:
+                - orders
+    /orders/{userId}/{orderId}:
+        summary: Fetch detailed order
+        get:
+            summary: Fetch detailed order
+            description: Gets a single detailed order by orderId
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+                - name: orderId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        {
+                                            "id": 1,
+                                            "status": "paid",
+                                            "total": "20",
+                                            "created": "2023-01-23T18:10:39.498Z",
+                                            "items": [
+                                                {
+                                                    "product_id": 2,
+                                                    "quantity": 1,
+                                                    "status": "paid"
+                                                },
+                                                {
+                                                    "product_id": 1,
+                                                    "quantity": 1,
+                                                    "status": "paid"
+                                                },
+                                                {
+                                                    "product_id": 4,
+                                                    "quantity": 2,
+                                                    "status": "paid"
+                                                }
+                                            ]
+                                        }
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "No order found"
+                                        }
+            tags:
+                - orders
