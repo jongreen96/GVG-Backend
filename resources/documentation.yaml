@@ -7,7 +7,7 @@ paths:
     /users/{userId}:
         summary: Endpoint for everything users
         get:
-            summary: Get user by ID
+            summary: Fetch user by ID
             parameters:
                 - name: userId
                   in: path
@@ -189,7 +189,7 @@ paths:
     /products:
         summary: Endpoint for everything products
         get:
-            summary: Requests all products
+            summary: Fetch all products
             description: Used to pull all products from database
             operationId: ''
             responses:
@@ -240,7 +240,7 @@ paths:
                 - products
         post:
             summary: Add new product
-            description: Adds new product to database, requires admin rights
+            description: Adds new product to database, requires admin privileges
             operationId: ''
             responses:
                 '200':
@@ -294,7 +294,7 @@ paths:
               schema:
                   type: integer
         get:
-            summary: Get product by productId
+            summary: Fetch product by productId
             description: Request for specific products
             operationId: ''
             responses:
@@ -330,7 +330,7 @@ paths:
             tags:
                 - products
         put:
-            summary: Update product by productId, requires admin privileges
+            summary: Update product by productId
             parameters:
                 - name: productId
                   in: path
@@ -338,7 +338,7 @@ paths:
                   required: true
                   schema:
                       type: integer
-            description: 'Updates one or many properties of a product '
+            description: Update product by productId, requires admin privileges
             operationId: ''
             responses:
                 '200':
@@ -411,3 +411,181 @@ paths:
                                         }
             tags:
                 - products
+    /carts/{userId}:
+        summary: Endpoint for everything carts
+        get:
+            summary: Fetch cart by userId
+            description: Fetch cart by userId
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Items in cart:
+                                    value: |-
+                                        {
+                                            "id": 1,
+                                            "user_id": 1,
+                                            "items": [
+                                                {
+                                                    "product_id": 1,
+                                                    "quantity": 1
+                                                },
+                                                {
+                                                    "product_id": 5,
+                                                    "quantity": 2
+                                                }
+                                            ]
+                                        }
+                                Empty cart:
+                                    value: |-
+                                        {
+                                            "id": 1,
+                                            "user_id": 1,
+                                            "items": []
+                                        }
+                '500':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "*error message*"
+                                        }
+            tags:
+                - carts
+        post:
+            summary: Add item to cart
+            description: Add item to cart or update if already exists
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        {
+                                            "product_id": 1,
+                                            "quantity": 1
+                                        }
+                '500':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "*Error message*"
+                                        }
+            tags:
+                - carts
+        put:
+            summary: Add item to cart
+            description: Add item to cart or update if already exists
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                    content:
+                        application/json:
+                            examples:
+                                Successful request:
+                                    value: |-
+                                        {
+                                            "product_id": 1,
+                                            "quantity": 1
+                                        }
+                '500':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "*Error message*"
+                                        }
+            tags:
+                - carts
+        delete:
+            summary: Delete item from cart by userId
+            description: Deletes one item from a cart
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "Item not removed from cart"
+                                        }
+            tags:
+                - carts
+    /carts/{userId}/all:
+        summary: Deletes all items from cart
+        delete:
+            summary: Deletes all items from cart
+            description: Resets user cart to empty cart
+            parameters:
+                - name: userId
+                  in: path
+                  description: ID of the user to retrieve
+                  required: true
+                  schema:
+                      type: integer
+            operationId: ''
+            responses:
+                '200':
+                    description: Successful request
+                '400':
+                    description: Failed request
+                    content:
+                        application/json:
+                            examples:
+                                Failed request:
+                                    value: |-
+                                        {
+                                            "message": "Items not removed from cart"
+                                        }
+            tags:
+                - carts
