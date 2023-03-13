@@ -37,7 +37,7 @@ module.exports = (app) => {
 	// Update review
 	app.put('/reviews/:id', async (req, res) => {
 		try {
-			const result = await reviewsQueries.updateReview(req.params.id, req.body);
+			const result = await reviewsQueries.updateReview(req.params.id, req);
 			res.send(result);
 		} catch (err) {
 			res.status(400).send({ message: err.message });
@@ -48,7 +48,7 @@ module.exports = (app) => {
 	// Delete review
 	app.delete('/reviews/:id', async (req, res) => {
 		try {
-			const result = await reviewsQueries.deleteReview(req.params.id);
+			const result = await reviewsQueries.deleteReview(req.params.id, req.user.id);
 			res.send();
 		} catch (err) {
 			res.status(400).send({ message: err.message });

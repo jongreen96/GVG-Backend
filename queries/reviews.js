@@ -23,9 +23,11 @@ module.exports = {
 		);
 		return result.rows[0];
 	},
-	updateReview: async (id, newReview) => {
+	updateReview: async (id, req) => {
+		const newReview = req.body;
 		const review = await db.query('SELECT created FROM reviews WHERE id = $1', [id]);
 		if (!review.rows[0]) throw new Error('Review not found');
+		if (review.user_id !== req.user.id) throw new Error('User not authorized');
 		if (review.created + 86400000 * 7 < Date.now())
 			throw new Error('Review cannot be updated after 7 days');
 		const result = await db.query(
@@ -34,9 +36,10 @@ module.exports = {
 		);
 		return result.rows[0];
 	},
-	deleteReview: async (id) => {
+	deleteReview: async (id, user_id) => {
 		const review = await db.query('SELECT created FROM reviews WHERE id = $1', [id]);
 		if (!review.rows[0]) throw new Error('Review not found');
+		if (review.user_id !== user_id) throw new Error('User not authorized');
 		if (review.created + 86400000 * 7 < Date.now())
 			throw new Error('Review cannot be deleted after 7 days');
 		const result = await db.query('DELETE FROM reviews WHERE id = $1', [id]);
