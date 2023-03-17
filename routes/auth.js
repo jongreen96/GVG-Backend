@@ -3,6 +3,15 @@ const passport = require('passport');
 const { format } = require('../loaders/middleware');
 
 module.exports = (app) => {
+	// ------------------- GET ------------------- //
+	app.get('/auth', (req, res) => {
+		if (req.user) {
+			res.status(200).send({ message: 'User logged in' });
+		} else {	
+			res.status(400).send({ message: 'User not logged in' });
+		}
+	});
+
 	// ------------------- POST ------------------- //
 	// Register new user
 	app.post('/register', format, async (req, res) => {
