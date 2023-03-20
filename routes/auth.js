@@ -16,7 +16,7 @@ module.exports = (app) => {
 				},
 			})
 		} else {
-			res.status(400).send({ message: 'User not logged in' })
+			res.status(204).send({ message: 'User not logged in' })
 		}
 	})
 
