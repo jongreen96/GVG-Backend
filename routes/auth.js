@@ -49,9 +49,10 @@ module.exports = (app) => {
 	app.post('/logout', (req, res) => {
 		req.logout((err) => {
 			if (err) {
-				res.status(400).send({ message: 'User not logged out' });
+				console.log(err);
+				return res.status(500).send({ error: 'Internal server error' });
 			}
+			res.status(200).redirect('/');
 		});
-		res.status(200).redirect('/');
 	});
 };
