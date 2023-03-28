@@ -15,7 +15,7 @@ module.exports = (app) => {
 	// Get order by orderId
 	app.get('/orders/:orderid', async (req, res) => {
 		try {
-			const result = await orderQueries.getOrderById(req.user.orderid);
+			const result = await orderQueries.getOrderById(req.params.orderid);
 			res.send(result);
 		} catch (err) {
 			res.status(400).send({ message: err.message });
