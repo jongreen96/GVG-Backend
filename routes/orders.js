@@ -5,6 +5,7 @@ module.exports = (app) => {
 	// Get all orders by userId
 	app.get('/orders', async (req, res) => {
 		try {
+			console.log('here');
 			const result = await orderQueries.getAllOrdersByUserId(req.user.id);
 			res.send(result);
 		} catch (err) {
