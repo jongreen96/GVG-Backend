@@ -33,17 +33,15 @@ module.exports = {
 		for (const key in user) {
 			if (user.hasOwnProperty(key)) {
 				if (['id', 'otherProperties'].includes(key)) continue;
+				if (user[key] === '') continue;
 				queryStr += `${key} = $${i}, `;
 				values.push(user[key]);
 				i++;
 			}
 		}
 		queryStr = queryStr.slice(0, -2);
-		queryStr +=
-			' WHERE id = $' +
-			i +
-			' RETURNING email, username, first_name, last_name, address, created';
-		values.push(req.params.id);
+		queryStr += ' WHERE id = $' + i + ' RETURNING email, username, first_name, last_name, address';
+		values.push(req.user.id);
 		const updatedUser = await db.query(queryStr, values);
 		return updatedUser.rows[0];
 	},

@@ -15,7 +15,7 @@ module.exports = (app) => {
 
 	// ------------------- PUT ------------------- //
 	// Update user by id
-	app.put('/users/:id', isAuthorized, async (req, res) => {
+	app.put('/users', async (req, res) => {
 		try {
 			const result = await userQuery.updateUser(req);
 			res.send(result);
@@ -26,7 +26,7 @@ module.exports = (app) => {
 
 	// ------------------- DELETE ------------------- //
 	// Delete user
-	app.delete('/users/:id', isAuthorized, async (req, res) => {
+	app.delete('/users', isAuthorized, async (req, res) => {
 		try {
 			const result = await userQuery.deleteUser(req.params.id);
 			req.logout((err) => {
