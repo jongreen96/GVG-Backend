@@ -2,7 +2,16 @@ const db = require('../db');
 
 module.exports = {
 	getAllOrdersByUserId: async (userId) => {
-		const result = await db.query('SELECT orders.id, orders.status, orders.total, orders.created, products.id AS product_id, orders_items.quantity, products.name, products.price, products.download_link, products.images FROM orders JOIN orders_items ON orders.id = orders_items.order_id JOIN products ON orders_items.product_id = products.id WHERE user_id = $1 ORDER BY orders.created DESC;', [userId]);
+		const result = await db.query(
+			`SELECT orders.id, orders.status, orders.total, orders.created, orders_items.quantity,
+			products.id AS product_id, products.name, products.price, products.download_link, products.images
+			FROM orders 
+			JOIN orders_items ON orders.id = orders_items.order_id 
+			JOIN products ON orders_items.product_id = products.id 
+			WHERE user_id = $1 
+			ORDER BY orders.created DESC;`,
+			[userId]
+		);
 		if (result.rows.length === 0) throw new Error('No orders found');
 		const orders = [];
 		result.rows.forEach((row) => {
