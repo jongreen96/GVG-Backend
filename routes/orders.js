@@ -8,7 +8,7 @@ module.exports = (app) => {
 			const result = await orderQueries.getAllOrdersByUserId(req.user.id);
 			res.send(result);
 		} catch (err) {
-			res.status(400).send({ message: err.message });
+			res.status(204).send({ message: err.message });
 		}
 	});
 
