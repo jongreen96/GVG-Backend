@@ -18,7 +18,7 @@ module.exports = (app) => {
 			const result = await reviewsQueries.getReviewByProductId(req.params.productId);
 			res.send(result);
 		} catch (err) {
-			res.status(400).send({ message: err.message });
+			res.status(204).send({ message: err.message });
 		}
 	});
 
