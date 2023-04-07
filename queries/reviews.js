@@ -10,7 +10,7 @@ module.exports = {
 	},
 	getReviewByProductId: async (productId) => {
 		const review = await db.query(
-			'SELECT product_id, user_id, score, description, images, created FROM reviews WHERE product_id = $1',
+			'SELECT product_id, user_id, score, first_name, last_name, description, images, reviews.created FROM reviews JOIN users ON users.id = reviews.user_id WHERE product_id = $1',
 			[productId]
 		);
 		if (!review.rows[0]) throw new Error('Reviews not found');
