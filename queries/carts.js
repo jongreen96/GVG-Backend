@@ -7,7 +7,7 @@ module.exports = {
 		if (cart.rows.length > 0) {
 			// Get cart items
 			const cartItems = await db.query(
-				'SELECT product_id, quantity FROM carts_items WHERE cart_id = $1',
+				'SELECT product_id, name, price, quantity, images FROM carts_items JOIN products ON carts_items.product_id = products.id WHERE cart_id = $1',
 				[cart.rows[0].id]
 			);
 			cart.rows[0].items = cartItems.rows;
@@ -64,7 +64,7 @@ module.exports = {
 		if (!cart.rows[0]) return { error: 'Cart not found' };
 		// Remove item
 		const removedItem = await db.query(
-			'DELETE FROM carts_items WHERE cart_id = $1 AND product_id = $2',
+			'DELETE FROM carts_items WHERE cart_id = $1 AND product_id = $2 RETURNING product_id',
 			[cart.rows[0].id, item.product_id]
 		);
 		return removedItem.rows[0];
