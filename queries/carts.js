@@ -34,17 +34,25 @@ module.exports = {
 		if (existingItem.rows.length > 0) {
 			// Update quantity
 			const updatedItem = await db.query(
-				'UPDATE carts_items SET modified = NOW(), quantity = $1 WHERE cart_id = $2 AND product_id = $3 RETURNING product_id, quantity',
-				[item.quantity, cart.rows[0].id, item.product_id]
+				'UPDATE carts_items SET modified = NOW(), quantity = $1 WHERE cart_id = $2 AND product_id = $3',
+				[item.quantity || 1, cart.rows[0].id, item.product_id]
 			);
-			return updatedItem.rows[0];
+			const cartItem = await db.query(
+				'SELECT product_id, name, price, quantity, images FROM carts_items JOIN products ON carts_items.product_id = products.id WHERE cart_id = $1 AND product_id = $2',
+				[cart.rows[0].id, item.product_id]
+			);
+			return cartItem.rows[0];
 		} else {
 			// Create new item
 			const newItem = await db.query(
-				'INSERT INTO carts_items (cart_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING product_id, quantity',
-				[cart.rows[0].id, item.product_id, item.quantity]
+				'INSERT INTO carts_items (cart_id, product_id, quantity) VALUES ($1, $2, $3)',
+				[cart.rows[0].id, item.product_id, item.quantity || 1]
 			);
-			return newItem.rows[0];
+			const cartItem = await db.query(
+				'SELECT product_id, name, price, quantity, images FROM carts_items JOIN products ON carts_items.product_id = products.id WHERE cart_id = $1 AND product_id = $2',
+				[cart.rows[0].id, item.product_id]
+			);
+			return cartItem.rows[0];
 		}
 	},
 	updateItemInCart: async (id, item) => {
