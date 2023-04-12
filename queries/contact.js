@@ -21,7 +21,7 @@ module.exports = {
 			from: process.env.EMAIL,
 			to: email,
 			subject: 'Thank you for contacting Green Vinyl Graphics',
-			text: `Thank you for contacting us, ${name.split(' ').shift()}. We will get back to you as soon as possible.`,
+			text: `Thank you for contacting us, ${name.split(' ')[0]}. We will get back to you as soon as possible.`,
 		}
 
 		try {
