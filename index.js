@@ -10,5 +10,5 @@ const loaders = require('./loaders');
 loaders(app);
 
 app.listen(port, () => {
-	console.log(`Server listening on port: http://localhost:${port}`);
+	console.log(`Server listening on port: ${port}`);
 });
