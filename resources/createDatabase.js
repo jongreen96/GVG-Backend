@@ -105,6 +105,9 @@ const { DB } = require('../config');
 			database: DB.PGDATABASE,
 			password: DB.PGPASSWORD,
 			port: DB.PGPORT,
+			ssl: {
+				rejectUnauthorized: false,
+			},
 		});
 
 		await db.connect();
