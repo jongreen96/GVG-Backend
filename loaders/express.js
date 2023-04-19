@@ -26,9 +26,7 @@ module.exports = (app) => {
 			}),
 			cookie: {
 				maxAge: 1000 * 60 * 60 * 24,
-				secure: true,
-				sameSite: 'none',
-				httpOnly: false,
+				secure: false,
 			},
 		})
 	);
