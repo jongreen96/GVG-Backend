@@ -11,7 +11,6 @@ module.exports = (app) => {
 		cors({
 			origin: [process.env.CLIENT_URL, 'http://localhost:5173'],
 			credentials: true,
-			exposedHeaders: ['set-cookie'],
 		})
 	);
 	app.use(express.json());
@@ -27,8 +26,7 @@ module.exports = (app) => {
 			}),
 			cookie: {
 				maxAge: 1000 * 60 * 60 * 24,
-				secure: true,
-				sameSite: 'none',
+				secure: false,
 			},
 		})
 	);
