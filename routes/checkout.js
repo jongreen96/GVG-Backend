@@ -27,15 +27,19 @@ module.exports = (app) => {
 
 	app.post('/webhook', async (req, res) => {
 		const sig = req.headers['stripe-signature'];
-
 		let event;
-
 		try {
-			event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+			event = stripe.webhooks.constructEvent(
+				JSON.stringify(req.body), // Convert req.body to String
+				sig,
+				endpointSecret
+			);
 		} catch (err) {
 			res.status(400).send(`Webhook Error: ${err.message}`);
+			return;
 		}
 
+		// Handle the event
 		switch (event.type) {
 			case 'payment_intent.succeeded':
 				const paymentIntent = event.data.object;
@@ -46,6 +50,7 @@ module.exports = (app) => {
 				console.log(`Unhandled event type ${event.type}`);
 		}
 
+		// Return a response to acknowledge receipt of the event
 		res.send();
 	});
 };
