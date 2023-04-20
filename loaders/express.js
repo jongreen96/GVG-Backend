@@ -9,7 +9,7 @@ module.exports = (app) => {
 	app.use(morgan('dev'));
 	app.use(
 		cors({
-			origin: process.env.CLIENT_URL,
+			origin: [process.env.CLIENT_URL, 'http://localhost:5173'],
 			credentials: true,
 			exposedHeaders: ['set-cookie'],
 		})
