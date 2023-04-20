@@ -46,6 +46,6 @@ module.exports = (app) => {
 				console.log(`Unhandled event type ${event.type}`);
 		}
 
-		res.json({ received: true });
+		res.send();
 	});
 };
