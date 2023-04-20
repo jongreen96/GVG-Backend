@@ -29,6 +29,7 @@ module.exports = (app) => {
 				secure: true,
 				sameSite: 'none',
 			},
+			proxy: true,
 		})
 	);
 	return app;
