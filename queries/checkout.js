@@ -2,9 +2,10 @@ const db = require('../db');
 
 module.exports = {
 	createOrder: async (userId, pi) => {
-		const cartId = await db.query('SELECT id FROM carts WHERE user_id = $1', [
-			userId,
-		]);
+		const cartId = await db.query(
+			'SELECT id FROM carts WHERE user_id = $1',
+			[userId]
+		);
 		const cartItems = await db.query(
 			'SELECT * FROM carts_items WHERE cart_id = $1',
 			[cartId.rows[0].id]
@@ -33,8 +34,8 @@ module.exports = {
 
 		return order.rows[0];
 	},
-	paymentProcessed: async (paymentIntent) => {
-		const query = `UPDATE orders SET status = 'paid' WHERE pi = '${paymentIntent}'`;
+	paymentProcessed: async (pid) => {
+		const query = `UPDATE orders SET status = 'paid' WHERE pi = '${pid}'`;
 		await db.query(query);
 	},
 };

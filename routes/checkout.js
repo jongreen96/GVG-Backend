@@ -47,8 +47,7 @@ module.exports = (app) => {
 		switch (event.type) {
 			case 'payment_intent.succeeded':
 				const paymentIntent = event.data.object;
-				console.log(paymentIntent);
-				checkoutQueries.paymentProcessed(paymentIntent.paymentIntent);
+				checkoutQueries.paymentProcessed(paymentIntent.id);
 				break;
 			default:
 				console.log(`Unhandled event type ${event.type}`);
