@@ -7,7 +7,10 @@ module.exports = (app) => {
 	// --------------------- POST --------------------- //
 	app.post('/carts/checkout', async (req, res) => {
 		try {
-			const result = await checkoutQueries.createOrder(req.user.id);
+			const result = await checkoutQueries.createOrder(
+				req.user.id,
+				req.body.paymentIntent
+			);
 			res.send(result);
 		} catch (err) {
 			res.status(400).send({ message: err.message });
@@ -30,7 +33,11 @@ module.exports = (app) => {
 		const sig = req.headers['stripe-signature'];
 		let event;
 		try {
-			event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+			event = stripe.webhooks.constructEvent(
+				req.rawBody,
+				sig,
+				endpointSecret
+			);
 		} catch (err) {
 			res.status(400).send(`Webhook Error: ${err.message}`);
 			return;

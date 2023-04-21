@@ -4,20 +4,32 @@ const takePayment = async (userId, cartId, orderDetails, total) => {
 	// TODO: Take payment using orderDetails and total
 	const success = true; // TODO: Set to false if payment fails
 	if (success) {
-		await db.query('UPDATE orders SET status = $1 WHERE user_id = $2', ['paid', userId]);
-		await db.query('DELETE FROM carts_items WHERE cart_id = $1', [cartId.rows[0].id]);
+		await db.query('UPDATE orders SET status = $1 WHERE user_id = $2', [
+			'paid',
+			userId,
+		]);
+		await db.query('DELETE FROM carts_items WHERE cart_id = $1', [
+			cartId.rows[0].id,
+		]);
 	} else {
-		await db.query('UPDATE orders SET status = $1 WHERE user_id = $2', ['failed', userId]);
+		await db.query('UPDATE orders SET status = $1 WHERE user_id = $2', [
+			'failed',
+			userId,
+		]);
 	}
 	return success;
 };
 
 module.exports = {
-	createOrder: async (userId) => {
-		const cartId = await db.query('SELECT id FROM carts WHERE user_id = $1', [userId]);
-		const cartItems = await db.query('SELECT * FROM carts_items WHERE cart_id = $1', [
-			cartId.rows[0].id,
-		]);
+	createOrder: async (userId, pi) => {
+		const cartId = await db.query(
+			'SELECT id FROM carts WHERE user_id = $1',
+			[userId]
+		);
+		const cartItems = await db.query(
+			'SELECT * FROM carts_items WHERE cart_id = $1',
+			[cartId.rows[0].id]
+		);
 
 		if (cartItems.rows.length === 0) throw new Error('Cart is empty');
 
@@ -26,8 +38,8 @@ module.exports = {
 			[cartId.rows[0].id]
 		);
 		const order = await db.query(
-			'INSERT INTO orders (user_id, total, status) VALUES ($1, $2, $3) RETURNING id, total, status',
-			[userId, total.rows[0].sum, 'pending']
+			'INSERT INTO orders (user_id, total, status, pi) VALUES ($1, $2, $3, $4) RETURNING id, total, status, created',
+			[userId, total.rows[0].sum, 'pending', pi]
 		);
 		const orderItems = cartItems.rows.map((item) => {
 			return db.query(
@@ -35,6 +47,10 @@ module.exports = {
 				[order.rows[0].id, item.product_id, item.quantity, 'pending']
 			);
 		});
+		// clear cart
+		await db.query('DELETE FROM carts_items WHERE cart_id = $1', [
+			cartId.rows[0].id,
+		]);
 
 		return order.rows[0];
 	},
