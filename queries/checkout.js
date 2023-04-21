@@ -37,7 +37,7 @@ module.exports = {
 		console.log('HERE');
 		await db.query('UPDATE orders SET status = $1 WHERE pi = $2', [
 			'paid',
-			paymentIntent,
+			String(paymentIntent),
 		]);
 	},
 };
