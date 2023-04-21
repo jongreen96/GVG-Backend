@@ -34,10 +34,11 @@ module.exports = {
 		return order.rows[0];
 	},
 	paymentProcessed: async (paymentIntent) => {
-		console.log('HERE');
+		console.log(paymentIntent);
+		console.log(typeof paymentIntent);
 		await db.query('UPDATE orders SET status = $1 WHERE pi = $2', [
 			'paid',
-			String(paymentIntent),
+			`${paymentIntent}`,
 		]);
 	},
 };
