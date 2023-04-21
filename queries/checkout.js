@@ -34,11 +34,7 @@ module.exports = {
 		return order.rows[0];
 	},
 	paymentProcessed: async (paymentIntent) => {
-		console.log(paymentIntent);
-		console.log(typeof paymentIntent);
-		await db.query('UPDATE orders SET status = $1 WHERE pi = $2', [
-			'paid',
-			`${paymentIntent}`,
-		]);
+		const query = `UPDATE orders SET status = 'paid' WHERE pi = '${paymentIntent}'`;
+		await db.query(query);
 	},
 };
