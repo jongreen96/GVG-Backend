@@ -33,7 +33,11 @@ module.exports = (app) => {
 		const sig = req.headers['stripe-signature'];
 		let event;
 		try {
-			event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+			event = stripe.webhooks.constructEvent(
+				req.rawBody,
+				sig,
+				endpointSecret
+			);
 		} catch (err) {
 			res.status(400).send(`Webhook Error: ${err.message}`);
 			return;
@@ -43,7 +47,7 @@ module.exports = (app) => {
 		switch (event.type) {
 			case 'payment_intent.succeeded':
 				const paymentIntent = event.data.object;
-				console.log(paymentIntent.paymentIntent);
+				console.log(paymentIntent);
 				checkoutQueries.paymentProcessed(paymentIntent.paymentIntent);
 				break;
 			default:
