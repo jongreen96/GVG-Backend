@@ -43,6 +43,7 @@ module.exports = (app) => {
 		switch (event.type) {
 			case 'payment_intent.succeeded':
 				const paymentIntent = event.data.object;
+				console.log(`PaymentIntent for ${paymentIntent.id} was successful!`);
 				checkoutQueries.paymentProcessed(paymentIntent.id);
 				break;
 			default:

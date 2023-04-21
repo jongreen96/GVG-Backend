@@ -34,6 +34,7 @@ module.exports = {
 		return order.rows[0];
 	},
 	paymentProcessed: async (paymentIntent) => {
+		console.log('HERE');
 		await db.query('UPDATE orders SET status = $1 WHERE pi = $2', [
 			'paid',
 			paymentIntent,
