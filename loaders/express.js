@@ -1,12 +1,10 @@
 const cors = require('cors');
-const morgan = require('morgan');
 const express = require('express');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const { SESSION_SECRET } = require('../config');
 
 module.exports = (app) => {
-	app.use(morgan('dev'));
 	app.use(
 		cors({
 			origin: [process.env.CLIENT_URL, 'http://localhost:5173'],
