@@ -35,7 +35,11 @@ module.exports = {
 		return order.rows[0];
 	},
 	paymentProcessed: async (pid) => {
-		const query = `UPDATE orders SET status = 'paid' WHERE pi = '${pid}'`;
-		await db.query(query);
+		const order = await db.query(
+			'UPDATE orders SET status = $1 WHERE pi = $2 RETURNING id, total, status, created',
+			['paid', pid]
+		);
+		console.log(order);
+		return order.rows[0];
 	},
 };
