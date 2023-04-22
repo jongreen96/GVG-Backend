@@ -18,6 +18,10 @@ module.exports = (app) => {
 		);
 	});
 
+	// Image routes
+	const images = require('./images');
+	images(app);
+
 	// Auth routes
 	const auth = require('./auth');
 	auth(app);
