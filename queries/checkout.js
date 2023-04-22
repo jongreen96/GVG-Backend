@@ -36,10 +36,14 @@ module.exports = {
 	},
 	paymentProcessed: async (pid) => {
 		console.log(pid);
+
+		await new Promise((resolve) => setTimeout(resolve, 2000)); // wait for 2 seconds
+
 		const order = await db.query(
 			'UPDATE orders SET status = $1 WHERE pi = $2 RETURNING id, total, status, created',
 			['paid', pid]
 		);
+
 		console.log(order.rows[0]);
 		return order.rows[0];
 	},
