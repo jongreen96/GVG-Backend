@@ -61,4 +61,11 @@ module.exports = {
 		order.rows[0].items = orderItems.rows;
 		return order.rows[0];
 	},
+	updateDownloaded: async (orderId, productId) => {
+		const result = await db.query(
+			'UPDATE orders_items SET modified = NOW(), status = $1 WHERE order_id = $2 AND product_id = $3',
+			['downloaded', orderId, productId]
+		);
+		return result.rows[0];
+	},
 };

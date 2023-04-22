@@ -21,4 +21,16 @@ module.exports = (app) => {
 			res.status(400).send({ message: err.message });
 		}
 	});
+
+	app.post('/orders/downloaded', async (req, res) => {
+		try {
+			const result = await orderQueries.updateDownloaded(
+				req.body.id,
+				req.body.productId
+			);
+			res.send(result);
+		} catch (err) {
+			res.status(400).send({ message: err.message });
+		}
+	});
 };
