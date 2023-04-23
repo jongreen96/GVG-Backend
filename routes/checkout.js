@@ -18,8 +18,9 @@ module.exports = (app) => {
 	});
 
 	app.post('/create-payment-intent', async (req, res) => {
+		const amount = (req.body.total * 100).toFixed(0);
 		const paymentIntent = await stripe.paymentIntents.create({
-			amount: (req.body.total * 100).toFixed(),
+			amount,
 			currency: 'gbp',
 			automatic_payment_methods: {
 				enabled: true,
