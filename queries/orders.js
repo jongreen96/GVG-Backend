@@ -68,4 +68,11 @@ module.exports = {
 		);
 		return result.rows[0];
 	},
+	ownsProduct: async (userId, file) => {
+		const result = await db.query(
+			'SELECT COUNT(*) FROM orders o JOIN orders_items oi ON o.id = oi.order_id JOIN products p ON oi.product_id = p.id WHERE o.user_id = $1 AND p.download_link = $2;',
+			[userId, file]
+		);
+		return Number(result.rows[0].count);
+	},
 };

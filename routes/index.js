@@ -19,8 +19,8 @@ module.exports = (app) => {
 	});
 
 	// Image routes
-	const images = require('./images');
-	images(app);
+	const files = require('./files');
+	files(app);
 
 	// Auth routes
 	const auth = require('./auth');
