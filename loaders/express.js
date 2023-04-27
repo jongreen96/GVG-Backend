@@ -31,7 +31,7 @@ module.exports = (app) => {
 				tableName: 'session',
 			}),
 			cookie: {
-				maxAge: 1000 * 60 * 60 * 24,
+				maxAge: 1000 * 60 * 60 * 24 * 7,
 				secure: 'auto',
 				sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
 			},
