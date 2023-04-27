@@ -16,15 +16,27 @@ module.exports = {
 		if (!review.rows[0]) throw new Error('Reviews not found');
 		return review.rows;
 	},
-	createReview: async (review) => {
+	createReview: async (review, userId) => {
+		if (userId !== 1) {
+			const alreadyReviewed = await db.query(
+				'SELECT * FROM reviews WHERE product_id = $1 AND user_id = $2',
+				[review.product_id, userId]
+			);
+
+			if (alreadyReviewed.rows[0])
+				throw new Error('User has already reviewed this product');
+		}
+
+		console.log('HERE');
 		const result = await db.query(
-			'INSERT INTO reviews (product_id, user_id, score, description, images) VALUES ($1, $2, $3, $4, $5) RETURNING product_id, user_id, score, description, images',
+			'INSERT INTO reviews (product_id, user_id, score, description, images, reviewer) VALUES ($1, $2, $3, $4, $5, $6) RETURNING product_id, user_id, score, description, images, reviewer',
 			[
 				review.product_id,
-				review.user_id,
-				review.score,
-				review.description,
+				userId,
+				review.rating,
+				review.message,
 				review.images,
+				review.reviewer,
 			]
 		);
 		return result.rows[0];

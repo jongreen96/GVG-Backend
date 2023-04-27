@@ -26,7 +26,7 @@ module.exports = (app) => {
 	// Create review
 	app.post('/reviews', async (req, res) => {
 		try {
-			const result = await reviewsQueries.createReview(req.body);
+			const result = await reviewsQueries.createReview(req.body, req.user.id);
 			res.send(result);
 		} catch (err) {
 			res.status(400).send({ message: 'Review not created' });
