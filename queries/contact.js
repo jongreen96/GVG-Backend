@@ -38,7 +38,7 @@ module.exports = {
 		const mailToMe = {
 			from: process.env.EMAIL,
 			to: process.env.EMAIL,
-			subject: `Order from ${name} - £${total} - ${email}`,
+			subject: `Order from ${name} - £${total}`,
 			text: `Name: ${name}\nEmail: ${email}\nTotal: £${total}`,
 		};
 
