@@ -21,8 +21,9 @@ module.exports = {
 			from: process.env.EMAIL,
 			to: email,
 			subject: 'Thank you for contacting Green Vinyl Graphics',
-			text: `Thank you for contacting us, ${name.split(' ')[0]}. 
-			We will get back to you as soon as possible.`,
+			text: `Thank you for contacting us, ${
+				name.split(' ')[0]
+			}. We will get back to you as soon as possible.`,
 		};
 
 		try {
@@ -45,12 +46,9 @@ module.exports = {
 			from: process.env.EMAIL,
 			to: email,
 			subject: 'Thank you for your order from Green Vinyl Graphics',
-			text: `Dear ${name.split(' ')[0]},\n\n
-			We can confirm that we have received your order from Green Vinyl Graphics. Thank you for choosing our online store for your digital template needs.\n\n
-			Your order is being processed, once completed visit your account page to download your files.\n
-			If you need any assistance with the download process or have any questions about your purchase, please contact us by replying to this email or messaging us via our contact form at www.greenvinylgraphics.com/about.\n\n
-			Thank you for choosing Green Vinyl Graphics, and we hope to serve you again in the future.\n
-			Sincerely,\nJon Green.`,
+			text: `Dear ${
+				name.split(' ')[0]
+			},\n\nWe can confirm that we have received your order from Green Vinyl Graphics. Thank you for choosing our online store for your digital template needs.\n\nYour order is being processed, once completed visit your account page to download your files.\nIf you need any assistance with the download process or have any questions about your purchase, please contact us by replying to this email or messaging us via our contact form at www.greenvinylgraphics.com/about.\n\nThank you for choosing Green Vinyl Graphics, and we hope to serve you again in the future.\nSincerely,\n\nJon Green.`,
 		};
 
 		try {
