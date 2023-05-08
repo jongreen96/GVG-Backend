@@ -22,9 +22,10 @@ module.exports = (app) => {
 
 	app.post('/create-payment-intent', async (req, res) => {
 		const amount = (req.body.total * 100).toFixed(0);
+		const currency = req.body.currency.toLowerCase();
 		const paymentIntent = await stripe.paymentIntents.create({
 			amount,
-			currency: 'gbp',
+			currency,
 			automatic_payment_methods: {
 				enabled: true,
 			},
@@ -37,11 +38,7 @@ module.exports = (app) => {
 		const sig = req.headers['stripe-signature'];
 		let event;
 		try {
-			event = stripe.webhooks.constructEvent(
-				req.rawBody,
-				sig,
-				endpointSecret
-			);
+			event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
 		} catch (err) {
 			res.status(400).send(`Webhook Error: ${err.message}`);
 			return;
