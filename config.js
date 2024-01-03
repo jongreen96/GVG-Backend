@@ -6,6 +6,7 @@ module.exports = {
 		PGDATABASE: process.env.PGDATABASE,
 		PGPASSWORD: process.env.PGPASSWORD,
 		PGPORT: process.env.PGPORT,
+		DATABASE_URL: process.env.DATABASE_URL,
 	},
 	SESSION_SECRET: process.env.SESSION_SECRET,
 };
